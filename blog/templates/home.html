@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Blog</title>
+	</head>
+
+	<body>
+
+		<h1>{{blog_name}}</h1>
+		{%for i in posts%}
+			{%if i.visible%}			
+				<div>
+					<h2>{{i.title}}</h2>
+					<p>{{i.content}}</p>
+				</div>
+			{%endif%}
+		{%endfor%}
+
+	</body>
+
+</html>
