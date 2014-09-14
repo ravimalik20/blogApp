@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Login</title>
+	</head>
+
+	<body>
+		<h1>Login</h1>
+
+		{% if errors %}
+			<ul>
+			{%for i in errors%}
+				<li>{{i}}</li>	
+			{% endfor %}
+			</ul>
+		{% endif %}
+
+		<form action="" method="POST">
+			{%csrf_token%}			
+			{{form.as_p}}
+			<input type="submit" value="login" />
+		</form>
+	</body>
+
+</html>
