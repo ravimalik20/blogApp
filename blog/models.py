@@ -16,7 +16,7 @@ class Blog(models.Model):
 		return self.getCompleteURL()
 
 	def getCompleteURL(self):
-		return "%s.%s"%(self.owner.username, self.url)
+		return "%s/%s"%(self.owner.username, self.url)
 
 class Post(models.Model):
 	owner = models.ForeignKey(User, related_name = "post_owner")
