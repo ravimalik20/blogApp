@@ -2,6 +2,7 @@ from django.shortcuts import render
 from blog.models import Post, Blog
 from django.shortcuts import get_object_or_404, render
 from django.http import Http404
+from django.contrib.auth.models import User
 
 def home(request, blog_owner, blog_url):
 	context = {}
@@ -29,3 +30,17 @@ def blog_post(request, post_owner, blog_url, post_id):
 
 	context = {"errors": errors, "post": post}
 	return render(request, template, context)
+
+def user_home(request, username):
+	errors = []
+	template = "blog/templates/user_home.html"
+
+	if "user" in request:
+		user = request.user
+	else:
+		user = get_object_or_404(User, username = username)
+
+	context = {}	
+	context["user"] = user
+
+	return render(request, template, {"username": username, "user": user})

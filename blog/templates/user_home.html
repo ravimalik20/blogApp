@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>User Home</title>
+	</head>
+
+	<body>
+
+		{%if user %}
+			<h1>{{user.username}}</h1>
+
+			<h2>List of blogs of {{user.username}}</h2>
+			{%for i in user.blog_owner.all%}
+				<li><a href="/blog/{{i.getCompleteURL}}">{{i.title}}</a></li>
+			{%endfor%}
+		{%else%}
+			Not working
+		{%endif%}
+	</body>
+
+</html>
