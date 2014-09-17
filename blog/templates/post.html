@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Blog Post</title>
+	</head>
+
+	<body>
+		{%if errors%}
+			<ul>
+			{%for i in errors%}
+				<li>{{i}}</li>
+			{%endfor%}
+			</ul>
+		{%endif%}
+		<h1>{{post.title}}</h1>
+
+		<p>{{post.content}}</p>
+	</body>
+
+</html>
