@@ -1,0 +1,27 @@
+.header
+{	padding : 25px;
+}
+
+.main_menu
+{	padding: 25px;
+}
+
+.panel_menu
+{	float: left;
+	width: 30%;
+}
+
+.main_body
+{	padding: 25px;
+	float: left;
+	width: 70%;
+}
+
+.footer
+{	padding : 25px;
+	clear: both;
+}
+
+.body_container
+{	width: 100%;
+}

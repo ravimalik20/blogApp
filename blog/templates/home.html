@@ -1,23 +1,18 @@
-<!DOCTYPE html>
+{%extends "base.html"%}
 
-<html>
+{%block title%}
+	Blog : {{blog_title}}
+{%endblock%}
 
-	<head>
-		<title>Blog</title>
-	</head>
-
-	<body>
-
-		<h1>{{blog_title}}</h1>
-		{%for i in posts%}
-			{%if i.visible%}			
-				<div>
-					<h2>{{i.title}}</h2>
-					<p>{{i.content}}</p>
-				</div>
-			{%endif%}
-		{%endfor%}
-
-	</body>
-
-</html>
+{%block main_body%}
+	<h1>{{blog_title}}</h1>
+	{%for i in posts%}
+		{%if i.visible%}			
+			<div>
+				<h2>{{i.title}}</h2>
+				<p>{{i.content}}</p>
+				<a href="/blog/{{i.blog.getCompleteURL}}/{{i.id}}">Read More</a>
+			</div>
+		{%endif%}
+	{%endfor%}
+{%endblock%}

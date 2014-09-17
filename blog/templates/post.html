@@ -1,22 +1,23 @@
-<!DOCTYPE html>
+{%extends "base.html"%}
 
-<html>
+{%block title%}
+	Blog Post : {{post.title}}
+{%endblock%}
 
-	<head>
-		<title>Blog Post</title>
-	</head>
+{%block main_body%}
+	{%if errors%}
+		<ul>
+		{%for i in errors%}
+			<li>{{i}}</li>
+		{%endfor%}
+		</ul>
+	{%endif%}
 
-	<body>
-		{%if errors%}
-			<ul>
-			{%for i in errors%}
-				<li>{{i}}</li>
-			{%endfor%}
-			</ul>
-		{%endif%}
-		<h1>{{post.title}}</h1>
+	<div class="navbar">
+		<a href="/blog/{{post.blog.getCompleteURL}}">Back</a>
+	</div>
 
-		<p>{{post.content}}</p>
-	</body>
+	<h1>{{post.title}}</h1>
 
-</html>
+	<p>{{post.content}}</p>
+{%endblock%}

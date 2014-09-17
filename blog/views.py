@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect
 from blog.models import Post, Blog
 from django.shortcuts import get_object_or_404, render
 from django.http import Http404
 from django.contrib.auth.models import User
+from blog.forms import PostContentForm
+from django.utils import timezone
 
 def home(request, blog_owner, blog_url):
 	context = {}
@@ -44,3 +46,36 @@ def user_home(request, username):
 	context["user"] = user
 
 	return render(request, template, {"username": username, "user": user})
+
+def post_content(request, blog_owner, blog_url):
+	errors = []
+	template = "blog/templates/post_content.html"
+	form = PostContentForm()
+	_blog = Blog.objects.get(owner__username = blog_owner, url = blog_url)
+
+	if userCanPost(request.user, _blog):
+		if request.method == "POST":
+			form = PostContentForm(request.POST)
+
+			if form.is_valid():
+				_post = Post(owner=request.user, blog = _blog )
+				_post.title = form.cleaned_data["title"]
+				_post.content = form.cleaned_data["content"]
+				_post.published_on = timezone.now()
+				_post.visible = True
+				_post.save()
+				_post.contributors.add(request.user)
+				_post.save()
+
+				return HttpResponseRedirect("/blog/%s/%s"%(blog_owner, blog_url))
+				
+	else:
+		errors.append("Not an authorised user.")
+
+	return render(request, template, {"errors":errors, "form": form})
+			
+def userCanPost(user, _blog):
+	if user in _blog.contributors.all() or user == _blog.owner:
+		return True
+	else:
+		return False
