@@ -1,0 +1,24 @@
+README
+
+Blog app which is meant to be used in other django aplications. Implemented considering DRY principle.
+
+Why this project exists?
+
+The current purpose of this project is learning. I wish to learn web
+development in pyhton. And this is my practise project. But that does 
+not mean this project won't be below the standards. Currently it is a learning project but it will grow into a production ready application.
+
+Future Plans
+
+1. App which can be plugged in into existing applications.
+2. Multiple contributors to the sam eblog.
+3. Create a system in which multiple users can contribute to create 
+	posts.
+
+
+Feel free to fork the project, create bug reports and all the good stuff.
+
+Your Fellow,
+
+Ravi Malik
+A wannabe Programmer
