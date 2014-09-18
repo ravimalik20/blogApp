@@ -3,7 +3,7 @@ from blog.models import Post, Blog
 from django.shortcuts import get_object_or_404, render
 from django.http import Http404
 from django.contrib.auth.models import User
-from blog.forms import PostContentForm
+from blog.forms import PostContentForm, CreateBlogForm
 from django.utils import timezone
 
 def home(request, blog_owner, blog_url):
@@ -45,7 +45,7 @@ def user_home(request, username):
 	context = {}	
 	context["user"] = user
 
-	return render(request, template, {"username": username, "user": user})
+	return render(request, template, {"username": username, "user": user, "curr_user": request.user})
 
 def post_content(request, blog_owner, blog_url):
 	errors = []
@@ -73,7 +73,37 @@ def post_content(request, blog_owner, blog_url):
 		errors.append("Not an authorised user.")
 
 	return render(request, template, {"errors":errors, "form": form})
-			
+
+def create_blog(request):
+	errors = []
+	template = "blog/templates/create_blog.html"
+	form = CreateBlogForm()
+	user = request.user
+
+	if not user.is_authenticated():
+		raise Http404
+
+	if request.method == "POST":
+		form = CreateBlogForm(request.POST)
+
+		if form.is_valid():
+			try:
+				data = form.cleaned_data
+				_blog = Blog()
+				_blog.title = data["title"]
+				_blog.owner = user
+				_blog.url = data["url"]
+				_blog.tagline = data["tagline"]
+				_blog.active = True
+				_blog.save()
+				_blog.contributors.add(user)
+				_blog.save()
+				return HttpResponseRedirect("/blog/%s/"%_blog.getCompleteURL())
+			except:
+				errors.append("Blog URL already taken.")
+
+	return render(request, template, {"errors":errors, "form":form})
+
 def userCanPost(user, _blog):
 	if user in _blog.contributors.all() or user == _blog.owner:
 		return True

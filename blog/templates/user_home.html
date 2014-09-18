@@ -23,4 +23,8 @@
 	{%else%}
 		Not working
 	{%endif%}
+
+	{%ifequal user curr_user%}
+		<a href="/blog/new/">Create a Blog</a>
+	{%endifequal%}
 {%endblock%}
