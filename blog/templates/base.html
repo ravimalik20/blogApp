@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>{%block title%}{%endblock%}</title>
+		{%block includes%}
+		{%endblock%}
+	</head>
+
+	<body>
+
+		<div class="header">
+			{%block header%}
+				<h1>Blog App</h1>
+			{%endblock%}
+		</div>
+
+		<div class="main_menu">
+			{%block main_menu%}
+			{%endblock%}
+		</div>
+
+		<div class="body_container">
+			{%block body_container%}
+
+				<div class="main_body">
+					{%block main_body%}
+					{%endblock%}
+				</div>
+
+				<div class="panel_menu">
+					{%block panel_menu%}
+					{%endblock%}
+				</div>
+
+			{%endblock%}
+		</div>
+
+		<div class="footer">
+			{%block footer%}
+			{%endblock%}
+		</div>
+
+	</body>
+
+</html>

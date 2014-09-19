@@ -1,0 +1,19 @@
+{%extends "base.html"%}
+
+{%block main_body%}
+
+	<h1>Create New Blog</h1>
+
+	<ul>
+	{%for i in errors%}
+		<li>{{i}}</li>
+	{%endfor%}
+	</ul>
+
+	<form action="" method="post">
+		{%csrf_token%}
+		{{form.as_p}}
+		<input type="submit" value="Create">
+	</form>
+
+{%endblock%}

@@ -1,0 +1,19 @@
+{%extends "base.html"%}
+
+{%block main_body%}
+
+	<ul>
+	{%for i in errors%}
+		<li>{{i}}</li>
+	{%endfor%}
+	</ul>
+
+	<form action = "", method = "post">
+	{%csrf_token%}	
+	{{form.as_p}}
+	<input type="submit" value="post">
+	</form>
+
+	<a href="/blog/{{blog_owner}}/">Back</a>
+
+{%endblock%}

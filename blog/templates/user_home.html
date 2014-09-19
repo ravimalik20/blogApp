@@ -1,0 +1,30 @@
+{%extends "base.html"%}
+
+{%block title%}
+	User Home : {{user.username}}
+{%endblock%}
+
+{%block main_body%}
+	{%if user %}
+		<h1>{{user.username}}</h1>
+
+		<h2>List of blogs of {{user.username}}</h2>
+		{%for i in user.blog_owner.all%}
+		<ul>		
+		<li>
+			<p>{{i.title}}</p>
+			<a href="/blog/{{i.getCompleteURL}}/">view</a>
+			{%ifequal user.pk i.owner.pk%}
+			<a href="/blog/{{i.getCompleteURL}}/post/">Make a Post</a>
+			{%endifequal%}
+		</li>
+		</ul>
+		{%endfor%}
+	{%else%}
+		Not working
+	{%endif%}
+
+	{%ifequal user curr_user%}
+		<a href="/blog/new/">Create a Blog</a>
+	{%endifequal%}
+{%endblock%}

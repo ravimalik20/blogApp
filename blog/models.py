@@ -2,17 +2,21 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Blog(models.Model):
-	name = models.CharField(max_length = 100)
+	title = models.CharField(max_length = 100)
+	url = models.CharField(max_length = 100)
 	tagline = models.CharField(max_length = 500)
 	owner = models.ForeignKey(User, related_name = "blog_owner")
 	contributors = models.ManyToManyField(User, related_name = "blog_contributor")
 	active = models.BooleanField(default = True)
 
 	class Meta:
-		unique_together = ('name', 'owner',)
+		unique_together = ('url', 'owner',)
 
 	def __unicode__(self):
-		return "%s.%s"%(self.owner.username, self.name)
+		return self.getCompleteURL()
+
+	def getCompleteURL(self):
+		return "%s/%s"%(self.owner.username, self.url)
 
 class Post(models.Model):
 	owner = models.ForeignKey(User, related_name = "post_owner")

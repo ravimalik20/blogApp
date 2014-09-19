@@ -1,0 +1,23 @@
+{%extends "base.html"%}
+
+{%block title%}
+	Blog Post : {{post.title}}
+{%endblock%}
+
+{%block main_body%}
+	{%if errors%}
+		<ul>
+		{%for i in errors%}
+			<li>{{i}}</li>
+		{%endfor%}
+		</ul>
+	{%endif%}
+
+	<div class="navbar">
+		<a href="/blog/{{post.blog.getCompleteURL}}/">Back</a>
+	</div>
+
+	<h1>{{post.title}}</h1>
+
+	<p>{{post.content}}</p>
+{%endblock%}
