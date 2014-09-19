@@ -78,7 +78,7 @@ def post_content(request, blog_owner, blog_url):
 	else:
 		errors.append("Not an authorised user.")
 
-	return render(request, template, {"errors":errors, "form": form})
+	return render(request, template, {"errors":errors, "form": form, "blog_owner":blog_owner})
 
 def create_blog(request):
 	errors = []
@@ -104,7 +104,7 @@ def create_blog(request):
 				_blog.save()
 				_blog.contributors.add(user)
 				_blog.save()
-				return HttpResponseRedirect("/blog/%s/"%_blog.getCompleteURL())
+				return HttpResponseRedirect("/blog/%s/"%user.username)
 			except:
 				errors.append("Blog URL already taken.")
 
