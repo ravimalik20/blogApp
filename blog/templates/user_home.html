@@ -13,9 +13,9 @@
 		<ul>		
 		<li>
 			<p>{{i.title}}</p>
-			<a href="/blog/{{i.getCompleteURL}}">view</a>
+			<a href="/blog/{{i.getCompleteURL}}/">view</a>
 			{%ifequal user.pk i.owner.pk%}
-			<a href="/blog/{{i.getCompleteURL}}/post">Make a Post</a>
+			<a href="/blog/{{i.getCompleteURL}}/post/">Make a Post</a>
 			{%endifequal%}
 		</li>
 		</ul>

@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 def signin(request, redirect_to = ""):
+	redirect_to = request.GET.get("redirect_to", redirect_to)
+
 	form = LoginForm()
 	template = "user_app/templates/login.html"
 	errors = []	
@@ -27,10 +29,14 @@ def signin(request, redirect_to = ""):
 	return render(request, template, {'form':form, 'errors':errors})
 
 def signout(request, redirect_to = "/user/login/"):
+	redirect_to = request.GET.get("redirect_to", redirect_to)
+
 	logout(request)
 	return HttpResponseRedirect(redirect_to)
 
 def signup(request, redirect_to = "/user/login/"):
+	redirect_to = request.GET.get("redirect_to", redirect_to)
+
 	form = SignupForm()
 	template = "user_app/templates/signup.html"
 	errors = []

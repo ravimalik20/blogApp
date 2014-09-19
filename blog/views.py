@@ -72,7 +72,7 @@ def post_content(request, blog_owner, blog_url):
 				_post.contributors.add(request.user)
 				_post.save()
 
-				return HttpResponseRedirect("/blog/%s/%s"%(blog_owner, blog_url))
+				return HttpResponseRedirect("/blog/%s/%s/"%(blog_owner, blog_url))
 				
 	else:
 		errors.append("Not an authorised user.")
