@@ -20,6 +20,7 @@ def home(request, blog_owner, blog_url):
 	posts = Post.objects.filter(blog = _blog).order_by("-published_on")[:3]
 	context["posts"] = posts
 	context["blog_title"] = _blog.title
+	context["blog_owner"] = blog_owner
 
 	return render(request, template, context)
 
