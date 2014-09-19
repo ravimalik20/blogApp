@@ -6,6 +6,11 @@ from django.contrib.auth.models import User
 from blog.forms import PostContentForm, CreateBlogForm
 from django.utils import timezone
 
+def blog_home(request):
+	template = "blog/templates/blog_home.html"
+
+	return render(request, template, {"user":request.user})
+
 def home(request, blog_owner, blog_url):
 	context = {}
 	template = "blog/templates/home.html"
