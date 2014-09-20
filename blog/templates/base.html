@@ -1,45 +1,68 @@
+{%load staticfiles%}
+
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 
 	<head>
 		<title>{%block title%}{%endblock%}</title>
 		{%block includes%}
+		<link rel="stylesheet" href="{%static 'bootstrap/css/bootstrap.min.css'%}" />
+		<link rel="stylesheet" href="{%static 'bootstrap/css/bootstrap-theme.min.css'%}" />
+
+		<script src="bootstrap/js/bootstrap-min.js"></script>
 		{%endblock%}
+
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 	</head>
 
 	<body>
 
-		<div class="header">
-			{%block header%}
-				<h1>Blog App</h1>
-			{%endblock%}
-		</div>
+		<div class="container">
 
-		<div class="main_menu">
-			{%block main_menu%}
-			{%endblock%}
-		</div>
-
-		<div class="body_container">
-			{%block body_container%}
-
-				<div class="main_body">
-					{%block main_body%}
-					{%endblock%}
+			<div class="header row bg-primary">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				{%block header%}
+					<h1 class="text-center">Blog App</h1>
+				{%endblock%}
 				</div>
+			</div>
 
-				<div class="panel_menu">
-					{%block panel_menu%}
-					{%endblock%}
+			<div class="main_menu row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				{%block main_menu%}
+				{%endblock%}
 				</div>
+			</div>
 
-			{%endblock%}
-		</div>
+			<div class="body_container row">
+				{%block body_container%}
 
-		<div class="footer">
-			{%block footer%}
-			{%endblock%}
+					<div class="main_body col-xs-12 col-sm-6 col-lg-8">
+						{%block main_body%}
+						{%endblock%}
+					</div>
+
+					<div class="panel_menu col-sm-6 col-lg-4">
+						{%block panel_menu%}
+							<ul>
+								<li>Dummy List</li>
+								<li>Dummy List</li>
+							</ul>
+						{%endblock%}
+					</div>
+
+				{%endblock%}
+			</div>
+
+			<div class="footer row bg-primary">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				{%block footer%}
+					<p>(c) Copyright Ravi Malik</p>
+				{%endblock%}
+				</div>
+			</div>
+
 		</div>
 
 	</body>
