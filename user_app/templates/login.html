@@ -1,27 +1,24 @@
-<!DOCTYPE html>
+{%extends "user_app/templates/base.html"%}
 
-<html>
+{%block main_body%}
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">Login</div>
 
-	<head>
-		<title>Login</title>
-	</head>
+		<div class="panel-body">
+			{% if errors %}
+				<ul>
+				{%for i in errors%}
+					<li>{{i}}</li>	
+				{% endfor %}
+				</ul>
+			{% endif %}
 
-	<body>
-		<h1>Login</h1>
-
-		{% if errors %}
-			<ul>
-			{%for i in errors%}
-				<li>{{i}}</li>	
-			{% endfor %}
-			</ul>
-		{% endif %}
-
-		<form action="" method="POST">
-			{%csrf_token%}			
-			{{form.as_p}}
-			<input type="submit" value="login" />
-		</form>
-	</body>
-
-</html>
+			<form action="" method="POST">
+				{%csrf_token%}			
+				{{form.as_p}}
+				<input type="submit" value="login" />
+			</form>
+		</div>
+	</div>
+{%endblock%}

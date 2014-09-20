@@ -1,29 +1,25 @@
-<!DOCTYPE html>
+{%extends "user_app/templates/base.html"%}
 
-<html>
+{%block main_body%}
 
-	<head>
-		<title>SignUp</title>
-	</head>
+	<div class="panel panel-primary">
+		<div class="panel-heading">Signup</div>
 
-	<body>
+		<div class="panel-body">
+			{%if errors%}
+				<ul>
+				{%for i in errors%}
+					<li>{{i}}</li>
+				{%endfor%}
+				</ul>
+			{%endif%}
 
-		<h1>Sign Up</h1>
+			<form action="" method="POST">
+				{%csrf_token%}
+				{{form.as_p}}
+				<input type="submit" value="signup" />
+			</form>
+		</div>
+	</div>
 
-		{%if errors%}
-			<ul>
-			{%for i in errors%}
-				<li>{{i}}</li>
-			{%endfor%}
-			</ul>
-		{%endif%}
-
-		<form action="" method="POST">
-			{%csrf_token%}
-			{{form.as_p}}
-			<input type="submit" value="signup" />
-		</form>
-
-	</body>
-
-</html>
+{%endblock%}
