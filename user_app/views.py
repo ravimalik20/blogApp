@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from user_app.forms import SignupForm, LoginForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 
 def signin(request, redirect_to = ""):
 	redirect_to = request.GET.get("redirect_to", redirect_to)
@@ -48,9 +49,12 @@ def signup(request, redirect_to = "/user/login/"):
 			pwd2 = form.cleaned_data["pwd2"]
 			email = form.cleaned_data["email"]
 			if pwd1 == pwd2:
-				user = User.objects.create_user(usr, email, pwd1)
-				user.save()
-				return HttpResponseRedirect(redirect_to)
+				try:
+					user = User.objects.create_user(usr, email, pwd1)
+					user.save()
+					return HttpResponseRedirect(redirect_to)
+				except IntegrityError:
+					errors.append("User Already Exists.")
 			else:
 				errors.append("Passwords donot match.")
 		else:
