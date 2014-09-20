@@ -5,6 +5,16 @@
 {%endblock%}
 
 {%block body_container%}
+	<div class="jumbotron">
+		<h1>Blog Application</h1>
+		<p>
+		This is a blog application built in Django framework.
+		The application is built intending to be plugged into existing
+		django applications. Hence it is built with DRY as its purpose.
+		</p>
+		<p><a target = "_blank" class = "btn btn-primary btn-lg" href="https://github.com/ravimalik20/blogApp">View Code</a></p>
+	</div>
+
 	{%if user.is_authenticated%}
 		Welcome {{user.username}}. Wanna go to your 
 		<a href="/blog/{{user.username}}/" class="btn btn-default">homepage</a><br />
