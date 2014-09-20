@@ -7,10 +7,10 @@
 {%block body_container%}
 	{%if user.is_authenticated%}
 		Welcome {{user.username}}. Wanna go to your 
-		<a href="/blog/{{user.username}}/">homepage</a><br />
-		<a href="/user/logout/?redirect_to=/blog/">Logout</a>
+		<a href="/blog/{{user.username}}/" class="btn btn-default">homepage</a><br />
+		<a href="/user/logout/?redirect_to=/blog/" class="btn btn-default">Logout</a>
 	{%else%}
-		<a href="/user/login/?redirect_to=/blog/">Login</a><br />
-		<a href="/user/signup/?redirect_to=/user/login/?redirect_to=/blog/">Signup</a>
+		<a href="/user/login/?redirect_to=/blog/" class="btn btn-default">Login</a><br />
+		<a href="/user/signup/?redirect_to=/user/login/?redirect_to=/blog/"  class="btn btn-default">Signup</a>
 	{%endif%}
 {%endblock%}

@@ -11,10 +11,10 @@
 			<div>
 				<h2>{{i.title}}</h2>
 				<p>{{i.content}}</p>
-				<a href="/blog/{{i.blog.getCompleteURL}}/{{i.id}}/">Read More</a>
+				<a href="/blog/{{i.blog.getCompleteURL}}/{{i.id}}/" class="btn btn-default">Read More</a>
 			</div>
 		{%endif%}
 	{%endfor%}
 
-	<a href="/blog/{{blog_owner}}/">Blog Owner Profile</a>
+	<a href="/blog/{{blog_owner}}/" class="btn btn-default">Blog Owner Profile</a>
 {%endblock%}
