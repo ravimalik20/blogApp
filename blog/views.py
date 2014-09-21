@@ -8,8 +8,11 @@ from django.utils import timezone
 
 def blog_home(request):
 	template = "blog/templates/blog_home.html"
+	context = {}
 
-	return render(request, template, {"user":request.user})
+	context["user"] = request.user
+
+	return render(request, template, context)
 
 def home(request, blog_owner, blog_url):
 	context = {}
@@ -21,43 +24,53 @@ def home(request, blog_owner, blog_url):
 	context["posts"] = posts
 	context["blog_title"] = _blog.title
 	context["blog_owner"] = blog_owner
+	context["user"] = request.user
 
 	return render(request, template, context)
 
 def blog_post(request, post_owner, blog_url, post_id):
 	errors = []
 	template = "blog/templates/post.html"
+	context = {}
+
 	try:
 		post_id = int(post_id)
-		post = get_object_or_404(Post, owner__username = post_owner, blog__url = blog_url, pk=post_id)
+		post = get_object_or_404(Post, owner__username = post_owner,
+			blog__url = blog_url, pk=post_id)
 		if not post.visible:
 			errors.append("Post is marked invisible.")
 			post = None
 	except ValueError:
 		errors.append("Invalid post id.")
 
-	context = {"errors": errors, "post": post}
+	context = {"errors": errors, "post": post, "user": request.user}
+
 	return render(request, template, context)
 
 def user_home(request, username):
 	errors = []
 	template = "blog/templates/user_home.html"
+	context={}
 
 	if "user" in request:
-		user = request.user
+		blog_owner = request.user
 	else:
-		user = get_object_or_404(User, username = username)
+		blog_owner = get_object_or_404(User, username = username)
 
-	context = {}	
-	context["user"] = user
+	context["blog_owner"] = blog_owner
+	context["username"] = username
+	context["user"] = request.user
 
-	return render(request, template, {"username": username, "user": user, "curr_user": request.user})
+	return render(request, template, context)
 
 def post_content(request, blog_owner, blog_url):
 	errors = []
 	template = "blog/templates/post_content.html"
+	context = {}
+
 	form = PostContentForm()
-	_blog = Blog.objects.get(owner__username = blog_owner, url = blog_url)
+	_blog = Blog.objects.get(owner__username = blog_owner,
+		url = blog_url)
 
 	if userCanPost(request.user, _blog):
 		if request.method == "POST":
@@ -78,11 +91,18 @@ def post_content(request, blog_owner, blog_url):
 	else:
 		errors.append("Not an authorised user.")
 
-	return render(request, template, {"errors":errors, "form": form, "blog_owner":blog_owner})
+	context["errors"] = errors
+	context["form"] = form
+	context["blog_owner"] = blog_owner
+	context["user"] = request.user
+
+	return render(request, template, context)
 
 def create_blog(request):
 	errors = []
 	template = "blog/templates/create_blog.html"
+	context = {}
+	
 	form = CreateBlogForm()
 	user = request.user
 
@@ -108,7 +128,11 @@ def create_blog(request):
 			except:
 				errors.append("Blog URL already taken.")
 
-	return render(request, template, {"errors":errors, "form":form})
+	context["errors"] = errors
+	context["form"] = form
+	context["user"] = user
+
+	return render(request, template, context)
 
 def userCanPost(user, _blog):
 	if user in _blog.contributors.all() or user == _blog.owner:

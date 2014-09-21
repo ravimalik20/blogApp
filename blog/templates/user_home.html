@@ -1,15 +1,15 @@
 {%extends "base.html"%}
 
 {%block title%}
-	User Home : {{user.username}}
+	User Home : {{blog_owner.username}}
 {%endblock%}
 
 {%block main_body%}
-	{%if user %}
-		<h1>{{user.username}}</h1>
+	{%if blog_owner %}
+		<h1>{{blog_owner.username}}</h1>
 
-		<h2>List of blogs of {{user.username}}</h2>
-		{%for i in user.blog_owner.all%}
+		<h2>List of blogs of {{blog_owner.username}}</h2>
+		{%for i in blog_owner.blog_owner.all%}
 		<ul>		
 		<li>
 			<p>{{i.title}}</p>
@@ -24,7 +24,7 @@
 		Not working
 	{%endif%}
 
-	{%ifequal user curr_user%}
+	{%ifequal user blog_owner%}
 		<a href="/blog/new/" class="btn btn-default">Create a Blog</a>
 	{%endifequal%}
 {%endblock%}
