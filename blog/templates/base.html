@@ -23,7 +23,36 @@
 			<div class="header row bg-primary">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				{%block header%}
-					<h1 class="text-center">Blog App</h1>
+				<div class="row">
+					<div class="col-xs-1 col-sm-1 col-md-2 col-lg-2">
+						<a class="btn btn-default"
+							href="/blog/">Home
+						</a>
+					</div>
+					<div class="col-xs-10 col-sm-10 col-md-7 col-lg-7">
+						<h1 class="text-center">Blog App</h1>
+					</div>
+					<div class="col-xs-1 col-sm-1 col-md-3 col-lg-3">
+						<div class="hidden-xs hidden-sm">
+						{%if user.is_authenticated%}
+							Welcome {{user.username}}
+							<a href="/blog/{{user.username}}/"
+								class="btn btn-default">homepage
+							</a>
+							<a href="/user/logout/?redirect_to=/blog/"
+								class="btn btn-default">Logout
+							</a>
+						{%else%}
+							<a href="/user/login/?redirect_to=/blog/" 
+								class="btn btn-default">Login
+							</a>
+							<a href="/user/signup/?redirect_to=/user/login/?redirect_to=/blog/"
+								class="btn btn-default">Signup
+							</a>
+						{%endif%}
+						</div>
+					</div>
+				</div>
 				{%endblock%}
 				</div>
 			</div>

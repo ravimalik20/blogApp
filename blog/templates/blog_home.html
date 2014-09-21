@@ -14,13 +14,4 @@
 		</p>
 		<p><a target = "_blank" class = "btn btn-primary btn-lg" href="https://github.com/ravimalik20/blogApp">View Code</a></p>
 	</div>
-
-	{%if user.is_authenticated%}
-		Welcome {{user.username}}. Wanna go to your 
-		<a href="/blog/{{user.username}}/" class="btn btn-default">homepage</a><br />
-		<a href="/user/logout/?redirect_to=/blog/" class="btn btn-default">Logout</a>
-	{%else%}
-		<a href="/user/login/?redirect_to=/blog/" class="btn btn-default">Login</a><br />
-		<a href="/user/signup/?redirect_to=/user/login/?redirect_to=/blog/"  class="btn btn-default">Signup</a>
-	{%endif%}
 {%endblock%}
