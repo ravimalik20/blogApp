@@ -6,27 +6,36 @@ from django.contrib.auth.models import User
 from blog.forms import PostContentForm, CreateBlogForm
 from django.utils import timezone
 
-def blog_home(request):
+from django.views.generic import View
+from django.views.generic.edit import FormView
+
+class TemplateView(View):
+	template = ""
+
+	def get(self, request, *args, **kwargs):
+		context = {"request": request}
+
+		return render(request, self.template, context)
+
+class BlogHome(TemplateView):
 	template = "blog/templates/blog_home.html"
-	context = {}
 
-	context["user"] = request.user
-
-	return render(request, template, context)
-
-def home(request, blog_owner, blog_url):
-	context = {}
+class Home(View):
 	template = "blog/templates/home.html"
 
-	_blog = get_object_or_404(Blog, owner__username = blog_owner, url = blog_url)
+	def get(self, request, blog_owner, blog_url, *args, **kwargs):
+		context = {}
 
-	posts = Post.objects.filter(blog = _blog).order_by("-published_on")[:3]
-	context["posts"] = posts
-	context["blog_title"] = _blog.title
-	context["blog_owner"] = blog_owner
-	context["user"] = request.user
+		_blog = get_object_or_404(Blog, owner__username = blog_owner, 
+			url = blog_url)
+		posts = Post.objects.filter(blog = _blog).order_by("-published_on")[:3]
 
-	return render(request, template, context)
+		context["posts"] = posts
+		context["blog_title"] = _blog.title
+		context["blog_owner"] = blog_owner
+		context["user"] = request.user
+
+		return render(request, self.template, context)
 
 def blog_post(request, post_owner, blog_url, post_id):
 	errors = []
@@ -47,21 +56,20 @@ def blog_post(request, post_owner, blog_url, post_id):
 
 	return render(request, template, context)
 
-def user_home(request, username):
-	errors = []
+class UserHome(View):
 	template = "blog/templates/user_home.html"
-	context={}
 
-	if "user" in request:
-		blog_owner = request.user
-	else:
+	def get(self, request, *args, **kwargs):
+		context={}
+		username = kwargs["username"]
+
 		blog_owner = get_object_or_404(User, username = username)
 
-	context["blog_owner"] = blog_owner
-	context["username"] = username
-	context["user"] = request.user
+		context["blog_owner"] = blog_owner
+		context["username"] = username
+		context["user"] = request.user
 
-	return render(request, template, context)
+		return render(request, self.template, context)
 
 def post_content(request, blog_owner, blog_url):
 	errors = []
