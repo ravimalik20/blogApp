@@ -6,25 +6,21 @@ from django.contrib.auth.models import User
 from blog.forms import PostContentForm, CreateBlogForm
 from django.utils import timezone
 
-from django.views.generic import View
+from django.views.generic import View, DetailView
 from django.views.generic.edit import FormView
-
-class TemplateView(View):
-	template = ""
-
-	def get(self, request, *args, **kwargs):
-		context = {"request": request}
-
-		return render(request, self.template, context)
+from django.views.generic.base import TemplateView
 
 class BlogHome(TemplateView):
-	template = "blog/templates/blog_home.html"
+	template_name = "blog/templates/blog_home.html"
 
-class Home(View):
-	template = "blog/templates/home.html"
+class Home(TemplateView):
+	template_name = "blog/templates/home.html"
 
-	def get(self, request, blog_owner, blog_url, *args, **kwargs):
-		context = {}
+	def get_context_data(self, **kwargs):
+		context = super(Home, self).get_context_data(**kwargs)
+
+		blog_owner = kwargs["blog_owner"]
+		blog_url = kwargs["blog_url"]
 
 		_blog = get_object_or_404(Blog, owner__username = blog_owner, 
 			url = blog_url)
@@ -33,43 +29,51 @@ class Home(View):
 		context["posts"] = posts
 		context["blog_title"] = _blog.title
 		context["blog_owner"] = blog_owner
-		context["user"] = request.user
+		context["user"] = self.request.user
 
-		return render(request, self.template, context)
+		return context
 
-def blog_post(request, post_owner, blog_url, post_id):
+class BlogPost(TemplateView):
+	template_name = "blog/templates/post.html"
 	errors = []
-	template = "blog/templates/post.html"
-	context = {}
 
-	try:
-		post_id = int(post_id)
-		post = get_object_or_404(Post, owner__username = post_owner,
-			blog__url = blog_url, pk=post_id)
-		if not post.visible:
-			errors.append("Post is marked invisible.")
-			post = None
-	except ValueError:
-		errors.append("Invalid post id.")
+	def get_context_data(self, **kwargs):
+		context = super(BlogPost, self).get_context_data(**kwargs)
+		context["errors"] = self.errors
 
-	context = {"errors": errors, "post": post, "user": request.user}
+		try:
+			post_owner = kwargs["post_owner"]
+			blog_url = kwargs["blog_url"]
+			post_id = int(kwargs["post_id"])
 
-	return render(request, template, context)
+			post = get_object_or_404(Post, 
+				owner__username = post_owner,
+				blog__url = blog_url, pk=post_id)
+			if not post.visible:
+				errors.append("Post is marked invisible.")
+				post = None
+		except ValueError:
+			self.errors.append("Invalid post id.")
 
-class UserHome(View):
-	template = "blog/templates/user_home.html"
+		context["post"] = post
+		context["user"] = self.request.user
 
-	def get(self, request, *args, **kwargs):
-		context={}
+		return context
+
+class UserHome(TemplateView):
+	template_name = "blog/templates/user_home.html"
+
+	def get_context_data(self, **kwargs):
+		context = super(UserHome, self).get_context_data(**kwargs)
+
 		username = kwargs["username"]
-
 		blog_owner = get_object_or_404(User, username = username)
 
 		context["blog_owner"] = blog_owner
 		context["username"] = username
-		context["user"] = request.user
+		context["user"] = self.request.user
 
-		return render(request, self.template, context)
+		return context
 
 def post_content(request, blog_owner, blog_url):
 	errors = []
